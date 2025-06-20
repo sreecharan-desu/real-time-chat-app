@@ -1,9 +1,16 @@
 import WebSocket, { WebSocketServer } from "ws";
 import http from "http";
-import dotenv from "dotenv"
-dotenv.config()
+import dotenv from "dotenv";
+dotenv.config();
 
 const server = http.createServer();
+
+server.on("request", (req, res) => {
+  if (req.url === "/") {
+    res.writeHead(200, { "Content-Type": "text/plain" });
+    res.end("Server is up");
+  }
+});
 
 const websocketInstance = new WebSocketServer({ server });
 
@@ -23,8 +30,8 @@ websocketInstance.on("connection", (ws) => {
   });
 });
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3000;
 
 server.listen(PORT, () => {
-  console.log("Server is listening on port 3000");
+  console.log(`Server is listening on port ${PORT}`);
 });
