@@ -15,16 +15,17 @@ server.on("request", (req, res) => {
 const websocketInstance = new WebSocketServer({ server });
 
 websocketInstance.on("connection", (ws) => {
-  
+
 
   ws.on("error", (error) => {
     console.error(error);
   });
 
   ws.on("message", (data, isBinary) => {
+    const messageData = JSON.stringify({ ...JSON.parse(data.toString()), onlineUsers: websocketInstance.clients.size });
     websocketInstance.clients.forEach((client) => {
       if (client !== ws && client.readyState === WebSocket.OPEN) {
-        client.send(data, { binary: isBinary });
+        client.send(messageData, { binary: isBinary });
       }
     });
   });
