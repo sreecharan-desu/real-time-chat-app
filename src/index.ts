@@ -15,7 +15,7 @@ server.on("request", (req, res) => {
 const websocketInstance = new WebSocketServer({ server });
 
 websocketInstance.on("connection", (ws) => {
-  ws.send("Hello there!");
+  
 
   ws.on("error", (error) => {
     console.error(error);
